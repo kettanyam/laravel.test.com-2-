@@ -48,7 +48,12 @@
 	<div class="newest">
 
 		<h1>Which you HAVE TO know......</h1>
-		<h1>The newest News!</h1>
+		@foreach($news as $new)
+		<h1>{{ $new->newscontent}}</h1>
+		<br>
+		<h4>Realese at: {{ $new->newsid}}</h4>
+		@endforeach
+		<a href="http://laravel.test.com/newsupdate">UPDATE</a>
 	</div>
 
 	<div class="welcome">

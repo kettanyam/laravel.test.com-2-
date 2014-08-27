@@ -9,6 +9,7 @@ class grabnshow extends BaseController{
  	*/
 	public function gns(){
 		$allcontent = DB::select('select * from mb2');
-		return View::make('show',array('content' => $allcontent));
+		$newscontent = DB::table('news')->get();
+		return View::make('show',array('content' => $allcontent, 'news' => $newscontent));
 	}
 }

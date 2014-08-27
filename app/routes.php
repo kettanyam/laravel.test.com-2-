@@ -30,6 +30,8 @@ Route::get('makepage/{id}','makepage@makewaa');
 
 Route::get('/firstxx','grabnshow@gns');
 
+//-----------Message-------------//
+
 Route::get('create',function()
 {
 	return View::make('userinput');
@@ -41,5 +43,11 @@ Route::get('update/{mbid}', 'ContentController@actionOldmessage');
 Route::post('updated/{mbid}', 'ContentController@actionUpdate');
 
 Route::get('delete/{mbid}', 'ContentController@actionDelete');
+
+//-------------News--------------//
+
+Route::get('newsupdate', 'NewsController@actionOldnews');
+
+Route::post('updatednews/{newsid}', 'NewsController@actionUpdate');
 
 //Route::controller('home');
