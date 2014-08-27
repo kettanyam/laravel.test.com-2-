@@ -62,7 +62,7 @@ return array(
 				),
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'test',
+			'database'  => 'messageboard',
 			'username'  => 'root',
 			'password'  => '',
 			'charset'   => 'utf8',

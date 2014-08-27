@@ -28,4 +28,18 @@ Route::get('kkk',function()
 
 Route::get('makepage/{id}','makepage@makewaa');
 
+Route::get('/firstxx','grabnshow@gns');
+
+Route::get('create',function()
+{
+	return View::make('userinput');
+});
+Route::post('createcontent','ContentController@actionCreate');
+
+Route::get('update/{mbid}', 'ContentController@actionOldmessage');
+
+Route::post('updated/{mbid}', 'ContentController@actionUpdate');
+
+Route::get('delete/{mbid}', 'ContentController@actionDelete');
+
 //Route::controller('home');
