@@ -8,7 +8,10 @@ class grabnshow extends BaseController{
  	*
  	*/
 	public function gns(){
-		$allcontent = DB::select('select * from mb2');
+		//$allcontent = DB::select('select * from mb2');
+		$allcontent = DB::table('mb2')
+								->orderBy('mbid','desc')
+								->get();
 		$newscontent = DB::table('news')->get();
 		return View::make('show',array('content' => $allcontent, 'news' => $newscontent));
 	}
