@@ -54,6 +54,7 @@
 		<h4>Realese at: {{ $new->newsid}}</h4>
 		@endforeach
 		<a href="http://laravel.test.com/newsupdate">UPDATE</a>
+		<h6>Rare</h6>
 	</div>
 
 	<div class="welcome">
