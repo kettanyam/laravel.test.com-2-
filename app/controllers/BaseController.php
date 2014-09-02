@@ -15,4 +15,8 @@ class BaseController extends Controller {
 		}
 	}
 
+	public function getIndexUrl() {
+		$IndexUrl = action("IndexController@getContent");
+		return $IndexUrl;
+	}
 }

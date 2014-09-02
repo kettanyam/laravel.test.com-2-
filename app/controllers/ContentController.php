@@ -2,39 +2,78 @@
 
 class ContentController extends BaseController{
 
+	/*
+	 * Create new message
+	 * @param text username
+	 * 
+	 */
 	public function actionCreate(){
 
-		$name = $_POST['username'];
-		$message = $_POST['usermessage'];
-		DB::insert('insert into mb2 (username, content) values (?,?)', array($name, $message));
-		$url = action('grabnshow@gns');  //get the controller's position
-		echo "<script type='text/javascript'>";  //use javascript to change to the specified controller
-		echo "window.location.href='$url'";
-		echo "</script>"; 
+		$name = Input::get('username', false);   //= $name = $_POST['username'];
+		$message = Input::get('usermessage', "");//= $message = $_POST['usermessage'];
+		try {
+			if (!$name)
+				throw new Exception("Please enter your name.");
+
+			$createmessage = new Mb4;
+			$createmessage->mbid = null; 
+			$createmessage->username = $name;
+			$createmessage->content = $message;
+			try {
+				$createmessage->save();	
+				return Redirect::action('IndexController@getContent');
+			} catch (Exception $e) {
+				echo $e->getMessage();
+				exit;
+			}
+		} catch (Exception $e){
+			echo $e->getMessage();
+			exit;
+		}
 	}
 
-	public function actionOldmessage($mbid){
-		//$name = $username;
-		$allcontent = DB::select('select * from mb2 where mbid = ?', array($mbid));
-		return View::make('update', array('content' => $allcontent));
+	/*
+	 * Get old message
+	 * @param int mbid
+	 */
+	public function actionGetOldmessage($mbid){
+		try {
+			$oldContent = Mb4::find($mbid);
+			if (empty($oldContent))
+				throw new Exception("Error: no such message.");
+
+			return View::make('update', array('oldContent'=>$oldContent, 'home_url'=>$this->getIndexUrl() ));
+		} catch (Exception $e) {
+			echo $e->getMessage();
+			exit;
+		}
 	}
 
+	/* 
+	 * Modify message
+	 * @param int mbid
+	 */
 	public function actionUpdate($mbid){
-		$message = $_POST['newmessage'];
-		DB::update("update mb2 set content = '$message' where mbid = ?", array($mbid));
-		$url = action('grabnshow@gns');  //get the controller's position
-		echo "<script type='text/javascript'>";  //use javascript to change to the specified controller
-		echo "window.location.href='$url'";
-		echo "</script>";
+		$message = Input::get('newmessage');   //= $message = $_POST['newmessage'];
+		$waitforedit = Mb4::find($mbid);
+		$waitforedit->content = $message;
+		try {
+			$waitforedit->save();
+			return Redirect::action('IndexController@getContent');
+		} catch (Exception $e) {
+			echo $e->getMessage();
+			exit;
+		}
 	}
 
+	/*
+	 * Delete message
+	 * @param int mbid
+	 */
 	public function actionDelete($mbid){
-		//DB::delete("delete * from mb2 where mbid = ?", array($mbid));  <---This sentence can't work! I don't know why!
-		DB::table('mb2')->where('mbid', '=', $mbid)->delete();
-		$url = action('grabnshow@gns');  //get the controller's position
-		echo "<script type='text/javascript'>";  //use javascript to change to the specified controller
-		echo "window.location.href='$url'";
-		echo "</script>";
+		$waitfordelete = Mb4::find($mbid);
+		$waitfordelete->delete();
+		return Redirect::action('IndexController@getContent');
 	}
 }
 

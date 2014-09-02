@@ -11,43 +11,45 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
+/* 
+ * Get Index.
+ */
+Route::get('/','IndexController@getContent');
 
-Route::get('waa',function()
-{
-	return View::make('waa');
-});
-
-Route::get('kkk',function()
-{
-	return View::make('kkk.waa');
-});
-
-Route::get('makepage/{id}','makepage@makewaa');
-
-Route::get('/firstxx','grabnshow@gns');
-
-//-----------Message-------------//
-
+/*
+ * Message controller.
+ *
+ */
 Route::get('create',function()
 {
 	return View::make('userinput');
 });
+
 Route::post('createcontent','ContentController@actionCreate');
 
-Route::get('update/{mbid}', 'ContentController@actionOldmessage');
+//Route::get('update/{mbid}', 'ContentController@actionGetOldmessage'); 
+Route::any('/update/{mbid}', array('as'=>'update', 'uses'=>'ContentController@actionGetOldmessage'));
+Route::get('update/{mbid?}', function($mbid = null)
+{
+	try {
+		if(empty($mbid)) 
+			throw new Exception("Wrong URI.");
+			
+		return Redirect::route('update', array('mbid'=>$mbid));
+	} catch (Exception $e) {
+		echo $e->getMessage();
+		exit;
+	}
+});
 
 Route::post('updated/{mbid}', 'ContentController@actionUpdate');
 
 Route::get('delete/{mbid}', 'ContentController@actionDelete');
 
-//-------------News--------------//
-
-Route::get('newsupdate', 'NewsController@actionOldnews');
+/*
+ * News controller.
+ *
+ */
+Route::get('newsupdate', 'NewsController@actionGetOldnews');
 
 Route::post('updatednews/{newsid}', 'NewsController@actionUpdate');
-
-//Route::controller('home');

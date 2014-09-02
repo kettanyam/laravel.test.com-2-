@@ -27,7 +27,8 @@ return array(
 	*/
 
 	/*'default' => 'sqlite',  
-	//acient:*/'default' => 'mysql',
+	//acient:*/
+	'default' => 'mysql',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,12 +55,12 @@ return array(
 		),
 
 		'mysql' => array(
-			'read' => array(
+			/*'read' => array(
 				'host' => '127.0.0.1',
 				),
 			'write' => array(
 				'host' => '127.0.0.1',
-				),
+				),*/
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
 			'database'  => 'messageboard',

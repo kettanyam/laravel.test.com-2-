@@ -2,18 +2,29 @@
 
 class NewsController extends BaseController{
 
-	public function actionOldnews(){
-		$newscontent = DB::table('news')->get();
-		return View::make('updatenews', array('newscontent' => $newscontent));
+	/*
+	 * Get acient News
+	 *
+	 */
+	public function actionGetOldnews(){
+		$news = News2::first();
+		return View::make('updatenews', array('newscontent'=>$news, 'home_url'=>$this->getIndexUrl() ));
 	}
 
+	/*
+	 * Modify new News
+	 * @param int news_newsid
+	 */
 	public function actionUpdate($newsid){
 		$newcontent = $_POST['thenews'];
-		//DB::table('news')->where('newsid',$newsid)->update(array($newcontent));
-		DB::update("update news set newscontent = '$newcontent' where newsid = ?", array($newsid));
-		$url = action('grabnshow@gns');  //get the controller's position
-		echo "<script type='text/javascript'>";  //use javascript to change to the specified controller
-		echo "window.location.href='$url'";
-		echo "</script>";
+		$waitforedit = News2::find($newsid);
+		$waitforedit->newscontent = $newcontent;
+		try {
+			$waitforedit->save();
+			return Redirect::action('IndexController@getContent');  //Connect to  another controller.
+		} catch (Exception $e) {
+			echo $e->getMessage();
+			exit;
+		}
 	}
 }
