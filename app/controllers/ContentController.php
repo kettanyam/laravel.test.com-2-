@@ -19,13 +19,8 @@ class ContentController extends BaseController{
 			$createmessage->mbid = null; 
 			$createmessage->username = $name;
 			$createmessage->content = $message;
-			try {
-				$createmessage->save();	
-				return Redirect::action('IndexController@getContent');
-			} catch (Exception $e) {
-				echo $e->getMessage();
-				exit;
-			}
+			$createmessage->save();	
+			return Redirect::action('IndexController@getContent');
 		} catch (Exception $e){
 			echo $e->getMessage();
 			exit;
