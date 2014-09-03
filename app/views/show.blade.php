@@ -28,7 +28,9 @@
 		<a href="{{$home_url}}/delete/{{ $message -> mbid}}">DELETE</a>
 		@endforeach
 		<br>
-		{{ $url}}
+		@foreach($dell as $de)
+		{{ $de -> name}}
+		@endforeach
 	</div>
 
 </body>
